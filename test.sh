@@ -4,5 +4,5 @@ echo "testfile order: " $testfiles
 
 
 for filenum in $testfiles; do
-  ./parser ${filenum}.txt
+  ./parser ./test/${filenum}.txt
 done
