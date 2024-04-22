@@ -12,6 +12,7 @@
 #define ETYPE_VARIABLE_UNDEF          ("1")
 #define ETYPE_STRUCT_UNDEF            ("17")
 #define ETYPE_VARIABLE_REDEF          ("3")
+#define ETYPE_FUNCTION_REDEF          ("4")
 #define ETYPE_STRUCT_REDEF            ("16")
 #define ETYPE_STRUCT_UNKNOWNFIELD     ("14")
 #define ETYPE_ASSIGN_TYPEMISMATCH     ("5")
@@ -62,8 +63,8 @@ static size_t semantic_list_length(ParserState* pstate, CstList* list) {
 
 static Symbol* semantic_new_function(ParserState* pstate, StringId name, unsigned lineno) {
   Symbol* symbol = symtbl_search(pstate->symtbl, name);
-  if (symbol) { /* symbol redefinition */
-    mycc_error(ETYPE_VARIABLE_REDEF, lineno, "function redefinition: %s", strtbl_getstring(pstate->strtbl, name));
+  if (symbol) { /* function redefinition */
+    mycc_error(ETYPE_FUNCTION_REDEF, lineno, "function redefinition: %s", strtbl_getstring(pstate->strtbl, name));
     return symbol;
   }
   symbol = symtbl_insert(pstate->symtbl, name);
@@ -192,7 +193,7 @@ static void semantic_type_extfuncdec(ParserState* pstate, Type rettype, CstFuncD
   Symbol* symbol = semantic_new_function(pstate, funcdec->funcname, funcdec->lineno);
   BaseType* functype = typetbl_newfunction(&pstate->typetbl);
   utils_oom_ifnull(functype);
-  functype->funcion_rettype = rettype;
+  functype->function_rettype = rettype;
   symbol->attr.type = maketype(functype->id, 0);
   /* handle parameters */
   CstList* paramlist = (CstList*)funcdec->paramlist;
@@ -383,7 +384,7 @@ static Type semantic_type_exprcall(ParserState* pstate, CstCall* call) {
     mycc_error(ETYPE_CALL_NOTCALLABLE, call->func->lineno, "expected a function type");
     resulttype = makeerror(pstate);
   } else {
-    resulttype = typetbl_get(&pstate->typetbl, functype.basetype)->funcion_rettype;
+    resulttype = typetbl_get(&pstate->typetbl, functype.basetype)->function_rettype;
   }
   while (arglist) {
     Cst* arg = cstlist_get(arglist, Cst*);
@@ -493,7 +494,7 @@ static void semantic_type_stmtif(ParserState* pstate, CstStmtIf* stmtif) {
     mycc_error(ETYPE_OPERAND_TYPEMISMATCH, stmtif->cond->lineno, "condition should be evaluated to be an integer");;
   semantic_type_stmt(pstate, stmtif->if_stmt);
   if (stmtif->else_stmt)
-    semantic_type_stmt(pstate, stmtif->if_stmt);
+    semantic_type_stmt(pstate, stmtif->else_stmt);
 }
 
 static void semantic_type_stmtwhile(ParserState* pstate, CstStmtWhile* stmtwhile) {

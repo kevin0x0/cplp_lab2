@@ -31,7 +31,7 @@ typedef struct tagBaseType {
     /* for function, under the conditions required by the experiment,
      * It's not necessary to check whether the number and types of parameters match
      * that of arguments. So we only need to record the return type. */
-    Type funcion_rettype;
+    Type function_rettype;
     StructType* structtype;
   };
 } BaseType;
