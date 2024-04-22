@@ -34,7 +34,7 @@ static inline char* strtbl_newstring(StrTbl* strtab, const char* str);
 /* get offset(id) of a string in the string table. */
 static inline StringId strtbl_stringid(StrTbl* strtab, char* str);
 /* get string by offset(id). */
-static inline char* strtbl_getstring(StrTbl* strtab, size_t id);
+static inline char* strtbl_getstring(StrTbl* strtab, StringId id);
 
 
 static inline size_t strtbl_residual(StrTbl* strtab) {
@@ -80,7 +80,7 @@ static inline StringId strtbl_stringid(StrTbl* strtab, char* str) {
   return str - strtab->stack;
 }
 
-static inline char* strtbl_getstring(StrTbl* strtab, size_t id) {
+static inline char* strtbl_getstring(StrTbl* strtab, StringId id) {
   assert(id <= strtbl_size(strtab));
 
   return strtab->stack + id;

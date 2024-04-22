@@ -55,64 +55,8 @@ void cst_print(Cst* cst, unsigned currlevel, StrTbl* strtbl) {
       printf("COMMA\n");
       break;
     }
-    case CST_ASSIGN: {
-      printf("ASSIGN\n");
-      break;
-    }
-    case CST_NE: {
-      printf("NE\n");
-      break;
-    }
-    case CST_EQ: {
-      printf("EQ\n");
-      break;
-    }
-    case CST_LE: {
-      printf("LE\n");
-      break;
-    }
-    case CST_LT: {
-      printf("LT\n");
-      break;
-    }
-    case CST_GE: {
-      printf("GE\n");
-      break;
-    }
-    case CST_GT: {
-      printf("GT\n");
-      break;
-    }
-    case CST_ADD: {
-      printf("ADD\n");
-      break;
-    }
-    case CST_SUB: {
-      printf("SUB\n");
-      break;
-    }
-    case CST_MUL: {
-      printf("MUL\n");
-      break;
-    }
-    case CST_DIV: {
-      printf("DIV\n");
-      break;
-    }
-    case CST_AND: {
-      printf("AND\n");
-      break;
-    }
-    case CST_OR: {
-      printf("OR\n");
-      break;
-    }
     case CST_DOT: {
       printf("DOT\n");
-      break;
-    }
-    case CST_NOT: {
-      printf("NOT\n");
       break;
     }
     case CST_LP: {
@@ -160,6 +104,7 @@ void cst_print(Cst* cst, unsigned currlevel, StrTbl* strtbl) {
       break;
     }
     default: {
+      assert(false);
       /* is non-terminal */
       CstGeneric* generic = (CstGeneric*)cst;
       /* print its infomation */

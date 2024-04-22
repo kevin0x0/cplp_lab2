@@ -549,13 +549,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    68,    68,    70,    73,    74,    77,    78,    79,    80,
-      83,    84,    88,    89,    92,    93,    96,    97,   100,   103,
-     104,   107,   108,   111,   112,   115,   119,   122,   123,   126,
-     127,   128,   129,   130,   131,   132,   136,   137,   140,   143,
-     144,   147,   148,   152,   153,   154,   155,   156,   157,   158,
-     159,   160,   161,   162,   163,   164,   165,   166,   167,   168,
-     169,   170,   171,   172,   173,   174,   177,   178
+       0,    68,    68,    69,    72,    73,    76,    77,    78,    79,
+      82,    83,    87,    88,    91,    92,    95,    96,    99,   102,
+     103,   106,   107,   110,   111,   114,   118,   121,   122,   125,
+     126,   127,   128,   129,   130,   131,   135,   136,   139,   142,
+     143,   146,   147,   151,   152,   153,   154,   155,   156,   157,
+     158,   159,   160,   161,   162,   163,   164,   165,   166,   167,
+     168,   169,   170,   171,   172,   173,   176,   177
 };
 #endif
 
@@ -1505,403 +1505,402 @@ yyreduce:
     {
   case 2: /* Program: ExtDefList  */
 #line 68 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Program), (yyvsp[0].cst), NULL));
-                                                    if (parser_state->nerror == 0) cst_print((yyval.cst), 0, parser_state->strtbl); }
-#line 1511 "cmm.tab.c"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Program), (yyvsp[0].cst), NULL)); }
+#line 1510 "cmm.tab.c"
     break;
 
   case 3: /* Program: error  */
-#line 70 "cmm.y"
+#line 69 "cmm.y"
                                                   { (yyval.cst) = parser_state->noattrtokennode.error; }
-#line 1517 "cmm.tab.c"
+#line 1516 "cmm.tab.c"
     break;
 
   case 4: /* ExtDefList: ExtDef ExtDefList  */
-#line 73 "cmm.y"
+#line 72 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(ExtDefList), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1523 "cmm.tab.c"
+#line 1522 "cmm.tab.c"
     break;
 
   case 5: /* ExtDefList: %empty  */
-#line 74 "cmm.y"
+#line 73 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(ExtDefList), NULL)); }
-#line 1529 "cmm.tab.c"
+#line 1528 "cmm.tab.c"
     break;
 
   case 6: /* ExtDef: Specifier ExtDecList ";"  */
-#line 77 "cmm.y"
+#line 76 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(ExtDef), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1535 "cmm.tab.c"
+#line 1534 "cmm.tab.c"
     break;
 
   case 7: /* ExtDef: Specifier ";"  */
-#line 78 "cmm.y"
+#line 77 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(ExtDef), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1541 "cmm.tab.c"
+#line 1540 "cmm.tab.c"
     break;
 
   case 8: /* ExtDef: Specifier FunDec CompSt  */
-#line 79 "cmm.y"
+#line 78 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(ExtDef), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1547 "cmm.tab.c"
+#line 1546 "cmm.tab.c"
     break;
 
   case 9: /* ExtDef: error ";"  */
-#line 80 "cmm.y"
+#line 79 "cmm.y"
                                                   { (yyval.cst) = parser_state->noattrtokennode.error; }
-#line 1553 "cmm.tab.c"
+#line 1552 "cmm.tab.c"
     break;
 
   case 10: /* ExtDecList: VarDec  */
-#line 83 "cmm.y"
+#line 82 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(ExtDecList), (yyvsp[0].cst), NULL)); }
-#line 1559 "cmm.tab.c"
+#line 1558 "cmm.tab.c"
     break;
 
   case 11: /* ExtDecList: VarDec "," ExtDecList  */
-#line 84 "cmm.y"
+#line 83 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(ExtDecList), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1565 "cmm.tab.c"
+#line 1564 "cmm.tab.c"
     break;
 
   case 12: /* Specifier: "type name"  */
-#line 88 "cmm.y"
+#line 87 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Specifier), (yyvsp[0].cst), NULL)); }
-#line 1571 "cmm.tab.c"
+#line 1570 "cmm.tab.c"
     break;
 
   case 13: /* Specifier: StructSpecifier  */
-#line 89 "cmm.y"
+#line 88 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Specifier), (yyvsp[0].cst), NULL)); }
-#line 1577 "cmm.tab.c"
+#line 1576 "cmm.tab.c"
     break;
 
   case 14: /* StructSpecifier: "struct" OptTag "{" DefList "}"  */
-#line 92 "cmm.y"
+#line 91 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(StructSpecifier), (yyvsp[-4].cst), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1583 "cmm.tab.c"
+#line 1582 "cmm.tab.c"
     break;
 
   case 15: /* StructSpecifier: "struct" Tag  */
-#line 93 "cmm.y"
+#line 92 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(StructSpecifier), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1589 "cmm.tab.c"
+#line 1588 "cmm.tab.c"
     break;
 
   case 16: /* OptTag: "identifier"  */
-#line 96 "cmm.y"
+#line 95 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(OptTag), (yyvsp[0].cst), NULL)); }
-#line 1595 "cmm.tab.c"
+#line 1594 "cmm.tab.c"
     break;
 
   case 17: /* OptTag: %empty  */
-#line 97 "cmm.y"
+#line 96 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(OptTag), NULL)); }
-#line 1601 "cmm.tab.c"
+#line 1600 "cmm.tab.c"
     break;
 
   case 18: /* Tag: "identifier"  */
-#line 100 "cmm.y"
+#line 99 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Tag), (yyvsp[0].cst), NULL)); }
-#line 1607 "cmm.tab.c"
+#line 1606 "cmm.tab.c"
     break;
 
   case 19: /* VarDec: "identifier"  */
-#line 103 "cmm.y"
+#line 102 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(VarDec), (yyvsp[0].cst), NULL)); }
-#line 1613 "cmm.tab.c"
+#line 1612 "cmm.tab.c"
     break;
 
   case 20: /* VarDec: VarDec "[" "integer" "]"  */
-#line 104 "cmm.y"
+#line 103 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(VarDec), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1619 "cmm.tab.c"
+#line 1618 "cmm.tab.c"
     break;
 
   case 21: /* FunDec: "identifier" "(" VarList ")"  */
-#line 107 "cmm.y"
+#line 106 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(FunDec), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1625 "cmm.tab.c"
+#line 1624 "cmm.tab.c"
     break;
 
   case 22: /* FunDec: "identifier" "(" ")"  */
-#line 108 "cmm.y"
+#line 107 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(FunDec), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1631 "cmm.tab.c"
+#line 1630 "cmm.tab.c"
     break;
 
   case 23: /* VarList: ParamDec "," VarList  */
-#line 111 "cmm.y"
+#line 110 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(VarList), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1637 "cmm.tab.c"
+#line 1636 "cmm.tab.c"
     break;
 
   case 24: /* VarList: ParamDec  */
-#line 112 "cmm.y"
+#line 111 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(VarList), (yyvsp[0].cst), NULL)); }
-#line 1643 "cmm.tab.c"
+#line 1642 "cmm.tab.c"
     break;
 
   case 25: /* ParamDec: Specifier VarDec  */
-#line 115 "cmm.y"
+#line 114 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(ParamDec), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1649 "cmm.tab.c"
+#line 1648 "cmm.tab.c"
     break;
 
   case 26: /* CompSt: "{" DefList StmtList "}"  */
-#line 119 "cmm.y"
+#line 118 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(CompSt), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1655 "cmm.tab.c"
+#line 1654 "cmm.tab.c"
     break;
 
   case 27: /* StmtList: Stmt StmtList  */
-#line 122 "cmm.y"
+#line 121 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(StmtList), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1661 "cmm.tab.c"
+#line 1660 "cmm.tab.c"
     break;
 
   case 28: /* StmtList: %empty  */
-#line 123 "cmm.y"
+#line 122 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(StmtList), NULL)); }
-#line 1667 "cmm.tab.c"
+#line 1666 "cmm.tab.c"
     break;
 
   case 29: /* Stmt: Exp ";"  */
-#line 126 "cmm.y"
+#line 125 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Stmt), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1673 "cmm.tab.c"
+#line 1672 "cmm.tab.c"
     break;
 
   case 30: /* Stmt: CompSt  */
-#line 127 "cmm.y"
+#line 126 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Stmt), (yyvsp[0].cst), NULL)); }
-#line 1679 "cmm.tab.c"
+#line 1678 "cmm.tab.c"
     break;
 
   case 31: /* Stmt: "return" Exp ";"  */
-#line 128 "cmm.y"
+#line 127 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Stmt), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1685 "cmm.tab.c"
+#line 1684 "cmm.tab.c"
     break;
 
   case 32: /* Stmt: "if" "(" Exp ")" Stmt  */
-#line 129 "cmm.y"
+#line 128 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Stmt), (yyvsp[-4].cst), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1691 "cmm.tab.c"
+#line 1690 "cmm.tab.c"
     break;
 
   case 33: /* Stmt: "if" "(" Exp ")" Stmt "else" Stmt  */
-#line 130 "cmm.y"
+#line 129 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Stmt), (yyvsp[-6].cst), (yyvsp[-5].cst), (yyvsp[-4].cst), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1697 "cmm.tab.c"
+#line 1696 "cmm.tab.c"
     break;
 
   case 34: /* Stmt: "while" "(" Exp ")" Stmt  */
-#line 131 "cmm.y"
+#line 130 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Stmt), (yyvsp[-4].cst), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1703 "cmm.tab.c"
+#line 1702 "cmm.tab.c"
     break;
 
   case 35: /* Stmt: error ";"  */
-#line 132 "cmm.y"
+#line 131 "cmm.y"
                                                   { (yyval.cst) = parser_state->noattrtokennode.error; }
-#line 1709 "cmm.tab.c"
+#line 1708 "cmm.tab.c"
     break;
 
   case 36: /* DefList: Def DefList  */
-#line 136 "cmm.y"
+#line 135 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(DefList), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1715 "cmm.tab.c"
+#line 1714 "cmm.tab.c"
     break;
 
   case 37: /* DefList: %empty  */
-#line 137 "cmm.y"
+#line 136 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(DefList), NULL)); }
-#line 1721 "cmm.tab.c"
+#line 1720 "cmm.tab.c"
     break;
 
   case 38: /* Def: Specifier DecList ";"  */
-#line 140 "cmm.y"
+#line 139 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Def), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1727 "cmm.tab.c"
+#line 1726 "cmm.tab.c"
     break;
 
   case 39: /* DecList: Dec  */
-#line 143 "cmm.y"
+#line 142 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(DecList), (yyvsp[0].cst), NULL)); }
-#line 1733 "cmm.tab.c"
+#line 1732 "cmm.tab.c"
     break;
 
   case 40: /* DecList: Dec "," DecList  */
-#line 144 "cmm.y"
+#line 143 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(DecList), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1739 "cmm.tab.c"
+#line 1738 "cmm.tab.c"
     break;
 
   case 41: /* Dec: VarDec  */
-#line 147 "cmm.y"
+#line 146 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Dec), (yyvsp[0].cst), NULL)); }
-#line 1745 "cmm.tab.c"
+#line 1744 "cmm.tab.c"
     break;
 
   case 42: /* Dec: VarDec "=" Exp  */
-#line 148 "cmm.y"
+#line 147 "cmm.y"
                                                   { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Dec), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1751 "cmm.tab.c"
+#line 1750 "cmm.tab.c"
     break;
 
   case 43: /* Exp: Exp "=" Exp  */
-#line 152 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1757 "cmm.tab.c"
+#line 151 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_ASSIGN, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1756 "cmm.tab.c"
     break;
 
   case 44: /* Exp: Exp "&&" Exp  */
-#line 153 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1763 "cmm.tab.c"
+#line 152 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_AND, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1762 "cmm.tab.c"
     break;
 
   case 45: /* Exp: Exp "||" Exp  */
-#line 154 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1769 "cmm.tab.c"
+#line 153 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_OR, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1768 "cmm.tab.c"
     break;
 
   case 46: /* Exp: Exp "<=" Exp  */
-#line 155 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1775 "cmm.tab.c"
+#line 154 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_LE, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1774 "cmm.tab.c"
     break;
 
   case 47: /* Exp: Exp "<" Exp  */
-#line 156 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1781 "cmm.tab.c"
+#line 155 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_LT, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1780 "cmm.tab.c"
     break;
 
   case 48: /* Exp: Exp ">=" Exp  */
-#line 157 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1787 "cmm.tab.c"
+#line 156 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_GE, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1786 "cmm.tab.c"
     break;
 
   case 49: /* Exp: Exp ">" Exp  */
-#line 158 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1793 "cmm.tab.c"
+#line 157 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_GT, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1792 "cmm.tab.c"
     break;
 
   case 50: /* Exp: Exp "!=" Exp  */
-#line 159 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1799 "cmm.tab.c"
+#line 158 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_NE, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1798 "cmm.tab.c"
     break;
 
   case 51: /* Exp: Exp "==" Exp  */
-#line 160 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1805 "cmm.tab.c"
+#line 159 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_EQ, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1804 "cmm.tab.c"
     break;
 
   case 52: /* Exp: Exp "+" Exp  */
-#line 161 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1811 "cmm.tab.c"
+#line 160 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_ADD, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1810 "cmm.tab.c"
     break;
 
   case 53: /* Exp: Exp "-" Exp  */
-#line 162 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1817 "cmm.tab.c"
+#line 161 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_SUB, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1816 "cmm.tab.c"
     break;
 
   case 54: /* Exp: Exp "*" Exp  */
-#line 163 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1823 "cmm.tab.c"
+#line 162 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_MUL, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1822 "cmm.tab.c"
     break;
 
   case 55: /* Exp: Exp "/" Exp  */
-#line 164 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1829 "cmm.tab.c"
+#line 163 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_DIV, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1828 "cmm.tab.c"
     break;
 
   case 56: /* Exp: "(" Exp ")"  */
-#line 165 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1835 "cmm.tab.c"
+#line 164 "cmm.y"
+                                                  { (yyval.cst) = (yyvsp[-1].cst); }
+#line 1834 "cmm.tab.c"
     break;
 
   case 57: /* Exp: "-" Exp  */
-#line 166 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1841 "cmm.tab.c"
+#line 165 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_pre(yylineno, CSTOP_NEG, (yyvsp[0].cst))); }
+#line 1840 "cmm.tab.c"
     break;
 
   case 58: /* Exp: "!" Exp  */
-#line 167 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1847 "cmm.tab.c"
+#line 166 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_pre(yylineno, CSTOP_NOT, (yyvsp[0].cst))); }
+#line 1846 "cmm.tab.c"
     break;
 
   case 59: /* Exp: Exp "(" Args ")"  */
-#line 168 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1853 "cmm.tab.c"
+#line 167 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_call(yylineno, (yyvsp[-3].cst), (CstArgs*)((yyvsp[-1].cst)))); }
+#line 1852 "cmm.tab.c"
     break;
 
   case 60: /* Exp: Exp "(" ")"  */
-#line 169 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1859 "cmm.tab.c"
+#line 168 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_call(yylineno, (yyvsp[-2].cst), NULL)); }
+#line 1858 "cmm.tab.c"
     break;
 
   case 61: /* Exp: Exp "[" Exp "]"  */
-#line 170 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-3].cst), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1865 "cmm.tab.c"
+#line 169 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_index(yylineno, (yyvsp[-3].cst), (yyvsp[-1].cst))); }
+#line 1864 "cmm.tab.c"
     break;
 
   case 62: /* Exp: Exp "." "identifier"  */
-#line 171 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1871 "cmm.tab.c"
+#line 170 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_dot(yylineno, (yyvsp[-2].cst), ((CstId*)((yyvsp[0].cst)))->val)); }
+#line 1870 "cmm.tab.c"
     break;
 
   case 63: /* Exp: "identifier"  */
-#line 172 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[0].cst), NULL)); }
-#line 1877 "cmm.tab.c"
+#line 171 "cmm.y"
+                                                  { (yyval.cst) = (yyvsp[0].cst); }
+#line 1876 "cmm.tab.c"
     break;
 
   case 64: /* Exp: "integer"  */
-#line 173 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[0].cst), NULL)); }
-#line 1883 "cmm.tab.c"
+#line 172 "cmm.y"
+                                                  { (yyval.cst) = (yyvsp[0].cst); }
+#line 1882 "cmm.tab.c"
     break;
 
   case 65: /* Exp: "floating number"  */
-#line 174 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), (yyvsp[0].cst), NULL)); }
-#line 1889 "cmm.tab.c"
+#line 173 "cmm.y"
+                                                  { (yyval.cst) = (yyvsp[0].cst); }
+#line 1888 "cmm.tab.c"
     break;
 
   case 66: /* Args: Exp "," Args  */
-#line 177 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Args), (yyvsp[-2].cst), (yyvsp[-1].cst), (yyvsp[0].cst), NULL)); }
-#line 1895 "cmm.tab.c"
+#line 176 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_args(yylineno, (yyvsp[-2].cst), (yyvsp[0].cst))); }
+#line 1894 "cmm.tab.c"
     break;
 
   case 67: /* Args: Exp  */
-#line 178 "cmm.y"
-                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(VarDec), (yyvsp[0].cst), NULL)); }
-#line 1901 "cmm.tab.c"
+#line 177 "cmm.y"
+                                                  { (yyval.cst) = pstate_appendcst(parser_state, cst_create_args(yylineno, (yyvsp[0].cst), NULL)); }
+#line 1900 "cmm.tab.c"
     break;
 
 
-#line 1905 "cmm.tab.c"
+#line 1904 "cmm.tab.c"
 
       default: break;
     }
@@ -2125,5 +2124,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 182 "cmm.y"
+#line 181 "cmm.y"
  

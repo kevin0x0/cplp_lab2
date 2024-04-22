@@ -65,8 +65,7 @@ int yylex(void);
 
 %%
 
-Program : ExtDefList                              { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Program), $1, NULL));
-                                                    if (parser_state->nerror == 0) cst_print($$, 0, parser_state->strtbl); }
+Program : ExtDefList                              { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Program), $1, NULL)); }
         | error                                   { $$ = parser_state->noattrtokennode.error; }
         ;
 
@@ -149,33 +148,33 @@ Dec : VarDec                                      { $$ = pstate_appendcst(parser
     ;
 
 
-Exp : Exp ASSIGN Exp                              { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | Exp AND Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | Exp OR Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | Exp LE Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); } 
-    | Exp LT Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); } 
-    | Exp GE Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); } 
-    | Exp GT Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); } 
-    | Exp NE Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); } 
-    | Exp EQ Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); } 
-    | Exp ADD Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | Exp SUB Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | Exp MUL Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | Exp DIV Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | LP Exp RP                                   { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | SUB Exp                                     { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, NULL)); }
-    | NOT Exp                                     { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, NULL)); }
-    | Exp LP Args RP                              { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, $4, NULL)); }
-    | Exp LP RP                                   { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | Exp LB Exp RB                               { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, $4, NULL)); }
-    | Exp DOT ID                                  { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, $2, $3, NULL)); }
-    | ID                                          { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, NULL)); }
-    | INT                                         { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, NULL)); }
-    | FLOAT                                       { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Exp), $1, NULL)); }
+Exp : Exp ASSIGN Exp                              { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_ASSIGN, $1, $3)); }
+    | Exp AND Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_AND, $1, $3)); }
+    | Exp OR Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_OR, $1, $3)); }
+    | Exp LE Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_LE, $1, $3)); } 
+    | Exp LT Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_LT, $1, $3)); } 
+    | Exp GE Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_GE, $1, $3)); } 
+    | Exp GT Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_GT, $1, $3)); } 
+    | Exp NE Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_NE, $1, $3)); } 
+    | Exp EQ Exp                                  { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_EQ, $1, $3)); } 
+    | Exp ADD Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_ADD, $1, $3)); }
+    | Exp SUB Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_SUB, $1, $3)); }
+    | Exp MUL Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_MUL, $1, $3)); }
+    | Exp DIV Exp                                 { $$ = pstate_appendcst(parser_state, cst_create_bin(yylineno, CSTOP_DIV, $1, $3)); }
+    | LP Exp RP                                   { $$ = $2; }
+    | SUB Exp                                     { $$ = pstate_appendcst(parser_state, cst_create_pre(yylineno, CSTOP_NEG, $2)); }
+    | NOT Exp                                     { $$ = pstate_appendcst(parser_state, cst_create_pre(yylineno, CSTOP_NOT, $2)); }
+    | Exp LP Args RP                              { $$ = pstate_appendcst(parser_state, cst_create_call(yylineno, $1, (CstArgs*)($3))); }
+    | Exp LP RP                                   { $$ = pstate_appendcst(parser_state, cst_create_call(yylineno, $1, NULL)); }
+    | Exp LB Exp RB                               { $$ = pstate_appendcst(parser_state, cst_create_index(yylineno, $1, $3)); }
+    | Exp DOT ID                                  { $$ = pstate_appendcst(parser_state, cst_create_dot(yylineno, $1, ((CstId*)($3))->val)); }
+    | ID                                          { $$ = $1; }
+    | INT                                         { $$ = $1; }
+    | FLOAT                                       { $$ = $1; }
     ;
 
-Args : Exp COMMA Args                             { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(Args), $1, $2, $3, NULL)); }
-     | Exp                                        { $$ = pstate_appendcst(parser_state, cst_create_generic(yylineno, make_kindstrpair(VarDec), $1, NULL)); }
+Args : Exp COMMA Args                             { $$ = pstate_appendcst(parser_state, cst_create_args(yylineno, $1, $3)); }
+     | Exp                                        { $$ = pstate_appendcst(parser_state, cst_create_args(yylineno, $1, NULL)); }
      ;
 
 

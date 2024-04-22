@@ -69,25 +69,25 @@ ERROR   .
 {IF}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(IF))); return IF; }
 {ELSE}    { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(ELSE))); return ELSE; }
 
-{SEMI}    { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(SEMI))); return SEMI; }
-{COMMA}   { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(COMMA))); return COMMA; }
-{DOT}     { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(DOT))); return DOT; }
-{ASSIGN}  { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(ASSIGN))); return ASSIGN; }
+{SEMI}    { return SEMI; }
+{COMMA}   { return COMMA; }
+{DOT}     { return DOT; }
+{ASSIGN}  { return ASSIGN; }
 
-{ADD}     { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(ADD))); return ADD; }
-{SUB}     { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(SUB))); return SUB; }
-{MUL}     { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(MUL))); return MUL; }
-{DIV}     { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(DIV))); return DIV; }
-{AND}     { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(AND))); return AND; }
-{OR}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(OR))); return OR; }
-{NOT}     { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(NOT))); return NOT; }
+{ADD}     { return ADD; }
+{SUB}     { return SUB; }
+{MUL}     { return MUL; }
+{DIV}     { return DIV; }
+{AND}     { return AND; }
+{OR}      { return OR; }
+{NOT}     { return NOT; }
 
-{EQ}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(EQ))); return EQ; }
-{NE}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(NE))); return NE; }
-{LT}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(LT))); return LT; }
-{LE}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(LE))); return LE; }
-{GT}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(GT))); return GT; }
-{GE}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(GE))); return GE; }
+{EQ}      { return EQ; }
+{NE}      { return NE; }
+{LT}      { return LT; }
+{LE}      { return LE; }
+{GT}      { return GT; }
+{GE}      { return GE; }
 
 {LP}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(LP))); return LP; }
 {RP}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(RP))); return RP; }
