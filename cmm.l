@@ -60,14 +60,14 @@ ERROR   .
 {INT_DEC} { yylval.cst = pstate_appendcst(parser_state, cst_create_int(yylineno, strtoll(yytext, NULL, 10))); return INT; }
 {FLOAT}   { yylval.cst = pstate_appendcst(parser_state, cst_create_float(yylineno, strtof(yytext, NULL))); return FLOAT; }
 {FLOATE}  { yylval.cst = pstate_appendcst(parser_state, cst_create_float(yylineno, strtof(yytext, NULL))); return FLOAT; }
-{TINT}    { yylval.cst = pstate_appendcst(parser_state, cst_create_type(yylineno, TYPE_INT)); return TYPE; }
-{TFLOAT}  { yylval.cst = pstate_appendcst(parser_state, cst_create_type(yylineno, TYPE_FLOAT)); return TYPE; }
+{TINT}    { yylval.cst = pstate_appendcst(parser_state, cst_create_type(yylineno, BTYPE_INT)); return TYPE; }
+{TFLOAT}  { yylval.cst = pstate_appendcst(parser_state, cst_create_type(yylineno, BTYPE_FLOAT)); return TYPE; }
 
-{STRUCT}  { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(STRUCT))); return STRUCT; }
-{RETURN}  { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(RETURN))); return RETURN; }
-{WHILE}   { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(WHILE))); return WHILE; }
-{IF}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(IF))); return IF; }
-{ELSE}    { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(ELSE))); return ELSE; }
+{STRUCT}  { return STRUCT; }
+{RETURN}  { return RETURN; }
+{WHILE}   { return WHILE; }
+{IF}      { return IF; }
+{ELSE}    { return ELSE; }
 
 {SEMI}    { return SEMI; }
 {COMMA}   { return COMMA; }
@@ -89,16 +89,16 @@ ERROR   .
 {GT}      { return GT; }
 {GE}      { return GE; }
 
-{LP}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(LP))); return LP; }
-{RP}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(RP))); return RP; }
-{LB}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(LB))); return LB; }
-{RB}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(RB))); return RB; }
-{LC}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(LC))); return LC; }
-{RC}      { yylval.cst = pstate_appendcst(parser_state, cst_create_noattrtoken(yylineno, make_cstkind(RC))); return RC; }
+{LP}      { return LP; }
+{RP}      { return RP; }
+{LB}      { return LB; }
+{RB}      { return RB; }
+{LC}      { return LC; }
+{RC}      { return RC; }
 
 {ID}      { char* str = strtbl_newstring(parser_state->strtbl, yytext);
             utils_oom_ifnull(str);
-            yylval.cst = pstate_appendcst(parser_state, cst_create_id(yylineno, strtbl_stringid(parser_state->strtbl, str)));
+            yylval.string = strtbl_stringid(parser_state->strtbl, str);
             return ID; }
 
 {SPACE}   {}

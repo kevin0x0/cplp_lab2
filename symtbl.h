@@ -2,11 +2,21 @@
 #define _SYMTBL_H_
 
 #include "strtbl.h"
+#include "type.h"
+#include "typetbl.h"
 #include <stdlib.h>
 
 typedef struct tagSymbol Symbol;
 
+typedef enum tagSymBolKind {
+  SYMBOL_VARIABLE,
+  SYMBOL_FUNCTION,
+  SYMBOL_STRUCT,
+} SymbolKind;
+
 typedef struct tagSymbolAttr {
+  SymbolKind kind;
+  Type type;
 } SymbolAttr;
 
 struct tagSymbol {
@@ -27,14 +37,14 @@ struct tagSymTbl {
 
 bool symtbl_init(SymTbl* symtbl, size_t capacity, StrTbl* strtbl);
 void symtbl_destroy(SymTbl* symtbl);
-SymTbl* symtbl_create(size_t capacity, StrTbl* strtab);
+SymTbl* symtbl_create(size_t capacity, StrTbl* strtbl);
 void symtbl_delete(SymTbl* symtbl);
 
 static inline Symbol* symtbl_iter_begin(SymTbl* symtbl);
 static inline Symbol* symtbl_iter_next(SymTbl* symtbl, Symbol* symbol);
 
 Symbol* symtbl_insert(SymTbl* symtbl, StringId name);
-Symbol* symtbl_search(SymTbl* map, StringId name);
+Symbol* symtbl_search(SymTbl* symtbl, StringId name);
 static inline size_t symtbl_size(SymTbl* symtbl);
 
 static inline Symbol* symtbl_iter_begin(SymTbl* symtbl) {

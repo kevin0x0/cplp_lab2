@@ -1,6 +1,7 @@
 #include "mycc.h"
 #include "cmm.tab.h"
 #include "parser_state.h"
+#include "semantic.h"
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -39,6 +40,9 @@ int main(int argc, char **argv) {
   yyin = input;
   pstate_init(parser_state);
   yyparse();
+  if (parser_state->nerror == 0) {
+    semantic_checktype(parser_state, parser_state->program);
+  }
   pstate_destroy(parser_state);
   fclose(input);
   return 0;

@@ -3,14 +3,25 @@
 
 #include "cst.h"
 #include "strtbl.h"
+#include "symtbl.h"
+#include "typetbl.h"
 
 typedef struct tagParserState {
   StrTbl* strtbl;
+  SymTbl* symtbl;
   Cst* allcsts;
+  Cst* program;         /* this is the root node */
   unsigned nerror;
+  StringId dummyname;
+  TypeTbl typetbl;
   struct {
     Cst* error;
   } noattrtokennode;
+  struct {
+    BaseTypeId inttype;
+    BaseTypeId floattype;
+    BaseTypeId errortype;
+  } commontype;
 } ParserState;
 
 #define pstate_appendcst(pstate, cst)   pstate_appendcst_raw((pstate), (Cst*)(cst))

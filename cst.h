@@ -6,16 +6,15 @@
 
 #include <stdint.h>
 #include <stdlib.h>
-#include <strings.h>
 #define CstHeader Cst* next; CstKind kind; unsigned lineno
 
 typedef int32_t Int;
 typedef float Float;
 
-typedef enum tagType {
-  TYPE_INT,
-  TYPE_FLOAT
-} Type;
+typedef enum tagBasicType {
+  BTYPE_INT,
+  BTYPE_FLOAT
+} BasicType;
 
 typedef enum tagCstKind {
   CST_ERROR,
@@ -28,7 +27,6 @@ typedef enum tagCstKind {
 
   CST_BIN,
   CST_PRE,
-  CST_ARGS,
   CST_CALL,
   CST_INDEX,
   CST_DOT,
@@ -45,30 +43,24 @@ typedef enum tagCstKind {
   CST_ELSE,
   CST_WHILE,
 
-  CST_Program,
-  CST_ExtDefList,
-  CST_ExtDef,
-  CST_ExtDecList,
+  CST_DEF,
+  CST_DEC,
+  CST_EXTDEFDEC,
+  CST_EXTDEFFUNC,
+  CST_FUNCDEC,
+  CST_PARAM,
 
-  CST_Specifier,
-  CST_StructSpecifier,
-  CST_OptTag,
-  CST_Tag,
+  CST_LIST,
 
-  CST_VarDec,
-  CST_FunDec,
-  CST_VarList,
-  CST_ParamDec,
-  CST_CompSt,
+  CST_STMTIF,
+  CST_STMTRETURN,
+  CST_STMTEXPR,
+  CST_STMTWHILE,
+  CST_STMTCOMP,
 
-  CST_StmtList,
-  CST_Stmt,
-  CST_DefList,
-  CST_Def,
-  CST_DecList,
-  CST_Dec,
-  CST_Exp,
-  CST_Args
+  CST_STRUCTDEF,
+  CST_STRUCTTYPE,
+  CST_DECARR,
 } CstKind;
 
 typedef enum tagCstOp {
@@ -97,6 +89,8 @@ typedef enum tagCstOp {
 
 #define make_kindstrpair(macro)   make_cstkind(macro), #macro
 
+#define cst_checkkind(cst, _kind) ((cst)->kind == (_kind))
+
 typedef struct tagCst Cst;
 struct tagCst {
   CstHeader;
@@ -114,7 +108,7 @@ typedef struct tagCstFloat {
 
 typedef struct tagCstType {
   CstHeader;
-  Type val;
+  BasicType val;
 } CstType;
 
 typedef struct tagCstId {
@@ -135,16 +129,16 @@ typedef struct tagCstPre {
   Cst* operand;
 } CstPre;
 
-typedef struct tagCstArgs {
+typedef struct tagCstList {
   CstHeader;
-  Cst* arg;
-  Cst* nextarg;
-} CstArgs;
+  Cst* cst;
+  Cst* nextcst;
+} CstList;
 
 typedef struct tagCstCall {
   CstHeader;
   Cst* func;
-  CstArgs* args;
+  Cst* args;
 } CstCall;
 
 typedef struct tagCstDot {
@@ -159,12 +153,88 @@ typedef struct tagCstIndex {
   Cst* index;
 } CstIndex;
 
-typedef struct tagCstGeneric {
+typedef struct tagCstDec {
   CstHeader;
-  unsigned nchild;
-  const char* nodename;
-  Cst* children[];
-} CstGeneric;
+  Cst* vardec;
+  Cst* initval;
+} CstDec;
+
+typedef struct tagCstExtDefDec {
+  CstHeader;
+  Cst* specifier;
+  Cst* declist;
+} CstExtDefDec;
+
+typedef struct tagCstExtDefFunc {
+  CstHeader;
+  Cst* specifier;
+  Cst* funcdec;
+  Cst* stmt;
+} CstExtDefFunc;
+
+typedef struct tagCstFuncDec {
+  CstHeader;
+  StringId funcname;
+  Cst* paramlist;
+} CstFuncDec;
+
+typedef struct tagCstParam {
+  CstHeader;
+  Cst* specifier;
+  Cst* vardec;
+} CstParam;
+
+typedef struct tagCstDef {
+  CstHeader;
+  Cst* specifier;
+  Cst* declist;
+} CstDef;
+
+typedef struct tagCstStmtIf {
+  CstHeader;
+  Cst* cond;
+  Cst* if_stmt;
+  Cst* else_stmt;
+} CstStmtIf;
+
+typedef struct tagCstStmtReturn {
+  CstHeader;
+  Cst* expr;
+} CstStmtReturn;
+
+typedef struct tagCstStmtExpr {
+  CstHeader;
+  Cst* expr;
+} CstStmtExpr;
+
+typedef struct tagCstStmtWhile {
+  CstHeader;
+  Cst* cond;
+  Cst* stmt;
+} CstStmtWhile;
+
+typedef struct tagCstStmtComp {
+  CstHeader;
+  Cst* deflist;
+  Cst* stmtlist;
+} CstStmtComp;
+
+typedef struct tagCstStructDef {
+  CstHeader;
+  StringId tagname;
+  Cst* deflist;
+} CstStructDef;
+
+typedef struct tagCstStructType {
+  CstHeader;
+  StringId tagname;
+} CstStructType;
+
+typedef struct tagCstDecArr {
+  CstHeader;
+  Cst* vardec;
+  size_t nelem;
+} CstDecArr;
 
 typedef struct tagCstNoAttrToken {
   CstHeader;
@@ -179,12 +249,6 @@ static inline void* safe_alloc(size_t size) {
 #define cstalloc(csttype)         (csttype*)safe_alloc(sizeof (csttype))
 
 
-
-/* children must terminated with NULL.
- * for 'generic', the parameter 'lineno'
- * is only used when the number of children is 0. */
-CstGeneric* cst_create_generic(unsigned lineno, CstKind kind, const char* nodename, ...);
-void cst_print(Cst* cst, unsigned currlevel, StrTbl* strtbl);
 
 static inline CstInt* cst_create_int(unsigned lineno, Int val) {
   CstInt* cst = cstalloc(CstInt);
@@ -202,7 +266,7 @@ static inline CstFloat* cst_create_float(unsigned lineno, Float val) {
   return cst;
 }
 
-static inline CstType* cst_create_type(unsigned lineno, Type val) {
+static inline CstType* cst_create_type(unsigned lineno, BasicType val) {
   CstType* cst = cstalloc(CstType);
   cst->kind = make_cstkind(TYPE);
   cst->lineno = lineno;
@@ -244,21 +308,146 @@ static inline CstPre* cst_create_pre(unsigned lineno, CstOp op, Cst* operand) {
   return cst;
 }
 
-static inline CstArgs* cst_create_args(unsigned lineno, Cst* arg, Cst* args) {
-  CstArgs* cst = cstalloc(CstArgs);
-  cst->kind = CST_ARGS;
-  cst->lineno = lineno;
-  cst->arg = arg;
-  cst->nextarg = args;
-  return cst;
+static inline CstList* cst_create_list(unsigned lineno, Cst* cst, Cst* list) {
+  CstList* newlist = cstalloc(CstList);
+  newlist->kind = CST_LIST;
+  newlist->lineno = lineno;
+  newlist->cst = cst;
+  newlist->nextcst = list;
+  return newlist;
 }
 
-static inline CstCall* cst_create_call(unsigned lineno, Cst* func, CstArgs* args) {
+static inline CstCall* cst_create_call(unsigned lineno, Cst* func, Cst* args) {
   CstCall* cst = cstalloc(CstCall);
   cst->kind = CST_CALL;
   cst->lineno = lineno;
   cst->func = func;
   cst->args = args;
+  return cst;
+}
+
+static inline CstDec* cst_create_dec(unsigned lineno, Cst* vardec, Cst* initval) {
+  CstDec* cst = cstalloc(CstDec);
+  cst->kind = CST_DEC;
+  cst->lineno = lineno;
+  cst->vardec = vardec;
+  cst->initval = initval;
+  return cst;
+}
+
+static inline CstExtDefDec* cst_create_extdefdec(unsigned lineno, Cst* specifier, Cst* declist) {
+  CstExtDefDec* cst = cstalloc(CstExtDefDec);
+  cst->kind = CST_EXTDEFDEC;
+  cst->lineno = lineno;
+  cst->specifier = specifier;
+  cst->declist = declist;
+  return cst;
+}
+
+static inline CstExtDefFunc* cst_create_extdeffunc(unsigned lineno, Cst* specifier, Cst* funcdec, Cst* stmt) {
+  CstExtDefFunc* cst = cstalloc(CstExtDefFunc);
+  cst->kind = CST_EXTDEFFUNC;
+  cst->lineno = lineno;
+  cst->specifier = specifier;
+  cst->funcdec = funcdec;
+  cst->stmt = stmt;
+  return cst;
+}
+
+static inline CstFuncDec* cst_create_funcdec(unsigned lineno, StringId funcname, Cst* paramlist) {
+  CstFuncDec* cst = cstalloc(CstFuncDec);
+  cst->kind = CST_FUNCDEC;
+  cst->lineno = lineno;
+  cst->funcname = funcname;
+  cst->paramlist = paramlist;
+  return cst;
+}
+
+static inline CstParam* cst_create_param(unsigned lineno, Cst* specifier, Cst* vardec) {
+  CstParam* cst = cstalloc(CstParam);
+  cst->kind = CST_PARAM;
+  cst->lineno = lineno;
+  cst->specifier = specifier;
+  cst->vardec = vardec;
+  return cst;
+}
+
+static inline CstDef* cst_create_def(unsigned lineno, Cst* specifier, Cst* declist) {
+  CstDef* cst = cstalloc(CstDef);
+  cst->kind = CST_DEF;
+  cst->lineno = lineno;
+  cst->specifier = specifier;
+  cst->declist = declist;
+  return cst;
+}
+
+static inline CstStmtIf* cst_create_stmtif(unsigned lineno, Cst* cond, Cst* if_stmt, Cst* else_stmt) {
+  CstStmtIf* cst = cstalloc(CstStmtIf);
+  cst->kind = CST_STMTIF;
+  cst->lineno = lineno;
+  cst->cond = cond;
+  cst->if_stmt = if_stmt;
+  cst->else_stmt = else_stmt;
+  return cst;
+}
+
+static inline CstStmtReturn* cst_create_stmtreturn(unsigned lineno, Cst* expr) {
+  CstStmtReturn* cst = cstalloc(CstStmtReturn);
+  cst->kind = CST_STMTRETURN;
+  cst->lineno = lineno;
+  cst->expr = expr;
+  return cst;
+}
+
+static inline CstStmtExpr* cst_create_stmtexpr(unsigned lineno, Cst* expr) {
+  CstStmtExpr* cst = cstalloc(CstStmtExpr);
+  cst->kind = CST_STMTEXPR;
+  cst->lineno = lineno;
+  cst->expr = expr;
+  return cst;
+}
+
+static inline CstStmtWhile* cst_create_stmtwhile(unsigned lineno, Cst* cond, Cst* stmt) {
+  CstStmtWhile* cst = cstalloc(CstStmtWhile);
+  cst->kind = CST_STMTWHILE;
+  cst->lineno = lineno;
+  cst->cond = cond;
+  cst->stmt = stmt;
+  return cst;
+}
+
+static inline CstStmtComp* cst_create_stmtcomp(unsigned lineno, Cst* deflist, Cst* stmtlist) {
+  CstStmtComp* cst = cstalloc(CstStmtComp);
+  cst->kind = CST_STMTCOMP;
+  cst->lineno = lineno;
+  cst->deflist = deflist;
+  cst->stmtlist = stmtlist;
+  return cst;
+}
+
+static inline CstStructDef* cst_create_structdef(unsigned lineno, StringId tagname, Cst* deflist) {
+  CstStructDef* cst = cstalloc(CstStructDef);
+  cst->kind = CST_STRUCTDEF;
+  cst->lineno = lineno;
+  cst->tagname = tagname;
+  cst->deflist = deflist;
+  return cst;
+}
+
+static inline CstStructType* cst_create_structtype(unsigned lineno, StringId tagname) {
+  CstStructType* cst = cstalloc(CstStructType);
+  cst->kind = CST_STRUCTTYPE;
+  cst->lineno = lineno;
+  cst->tagname = tagname;
+  return cst;
+}
+
+static inline CstDecArr* cst_create_decarr(unsigned lineno, Cst* vardec, size_t nelem) {
+  CstDecArr* cst = cstalloc(CstDecArr);
+  cst->kind = CST_DECARR;
+  cst->lineno = lineno;
+  cst->vardec = vardec;
+  cst->nelem = nelem;
   return cst;
 }
 
@@ -279,5 +468,13 @@ static inline CstIndex* cst_create_index(unsigned lineno, Cst* arr, Cst* index) 
   cst->index = index;
   return cst;
 }
+
+
+/* some helpful functions and macros */
+static inline CstList* cstlist_next(CstList* list) {
+  return (CstList*)list->nextcst;
+}
+
+#define cstlist_get(list, type)   ((type)((list)->cst))
 
 #endif

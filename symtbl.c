@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-inline static size_t symtbl_hashing(StrTbl* strtab, StringId name) {
-  char* str = strtbl_getstring(strtab, name);
+inline static size_t symtbl_hashing(StrTbl* strtbl, StringId name) {
+  char* str = strtbl_getstring(strtbl, name);
   size_t hash = 0;
   while (*str)
     hash = (*str++) + (hash << 6) + (hash << 16) - hash;
@@ -105,7 +105,7 @@ Symbol* symtbl_insert(SymTbl* symtbl, StringId name) {
     return NULL;
 
   Symbol* newsymbol = (Symbol*)malloc(sizeof (Symbol));
-  if (!newsymbol) return false;
+  if (!newsymbol) return NULL;
 
   size_t hash = symtbl_hashing(symtbl->strtbl, name);
   size_t index = (symtbl->capacity - 1) & hash;
@@ -114,7 +114,7 @@ Symbol* symtbl_insert(SymTbl* symtbl, StringId name) {
   newsymbol->next = symtbl->array[index];
   symtbl->array[index] = newsymbol;
   symtbl->size++;
-  return true;
+  return newsymbol;
 }
 
 Symbol* symtbl_search(SymTbl* symtbl, StringId name) {
