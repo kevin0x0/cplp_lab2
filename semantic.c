@@ -361,7 +361,7 @@ static Type semantic_type_exprpre(ParserState* pstate, CstPre* prefix) {
       mycc_error(ETYPE_OPERAND_TYPEMISMATCH, prefix->lineno, "unary '-' can only be applied to integer and floating number");
       return makeerror(pstate);
     }
-    case CSTOP_OR: {
+    case CSTOP_NOT: {
       if (semantic_isinteger(pstate, type)) 
         return type;
       mycc_error(ETYPE_OPERAND_TYPEMISMATCH, prefix->lineno, "logic operator can only be applied to integer");
@@ -491,7 +491,7 @@ static void semantic_type_stmtcomp(ParserState* pstate, CstStmtComp* comp) {
 static void semantic_type_stmtif(ParserState* pstate, CstStmtIf* stmtif) {
   Type condtype = semantic_type_expr(pstate, stmtif->cond);
   if (!semantic_iserror(pstate, condtype) && !semantic_isinteger(pstate, condtype))
-    mycc_error(ETYPE_OPERAND_TYPEMISMATCH, stmtif->cond->lineno, "condition should be evaluated to be an integer");;
+    mycc_error(ETYPE_OPERAND_TYPEMISMATCH, stmtif->cond->lineno, "condition should be evaluated to be an integer");
   semantic_type_stmt(pstate, stmtif->if_stmt);
   if (stmtif->else_stmt)
     semantic_type_stmt(pstate, stmtif->else_stmt);
@@ -500,7 +500,7 @@ static void semantic_type_stmtif(ParserState* pstate, CstStmtIf* stmtif) {
 static void semantic_type_stmtwhile(ParserState* pstate, CstStmtWhile* stmtwhile) {
   Type condtype = semantic_type_expr(pstate, stmtwhile->cond);
   if (!semantic_iserror(pstate, condtype) && !semantic_isinteger(pstate, condtype))
-    mycc_error(ETYPE_OPERAND_TYPEMISMATCH, stmtwhile->cond->lineno, "condition should be evaluated to be an integer");;
+    mycc_error(ETYPE_OPERAND_TYPEMISMATCH, stmtwhile->cond->lineno, "condition should be evaluated to be an integer");
   semantic_type_stmt(pstate, stmtwhile->stmt);
 }
 
