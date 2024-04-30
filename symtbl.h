@@ -20,9 +20,9 @@ typedef struct tagSymbolAttr {
 } SymbolAttr;
 
 struct tagSymbol {
-  size_t hash;
   StringId name;
   SymbolAttr attr;
+  size_t hash;
   Symbol* next;
 };
 

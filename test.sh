@@ -5,5 +5,7 @@ echo "testfile order: " $testfiles
 
 
 for filenum in $testfiles; do
+  echo $filenum ":"
   ./parser ./test/${filenum}.txt
+  echo $filenum " done"
 done
